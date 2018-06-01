@@ -1,0 +1,46 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" (click)="cancelEditNode()" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Assignment</h4>
+        </div>
+        <div class="modal-body">
+            <tabset>
+                <tab title="Required" id="first-tab">
+                    <div class="col-md-12 tab-row" *ngFor="let item of listItem"> 
+                      <div class="col-md-1">{{item.index}}:</div>
+                      <div class="col-md-10">
+                        <select class="node-edit-select col-xs-3" [(ngModel)]="item.select1">
+                            <option *ngFor="let option of listItem1">{{option}}</option>
+                        </select>
+                        <div class="col-xs-1">=</div>
+                        <select class="node-edit-select col-xs-3" [(ngModel)]="item.select2" (change)="checkValidate(item)">
+                            <option *ngFor="let option of listItem2">{{option}}</option>
+                        </select>
+                        <input class="node-edit-text col-xs-3" [disabled]="item.select2 !='User value -->'" [(ngModel)]="item.input">
+                      </div>
+                    </div>
+                </tab>
+                <tab title="Optional">
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Call marker</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.optional.callmarker">
+                        </div>
+                    </div>
+                </tab>
+                <tab title="Advanced">
+                    <div class="col-md-12 tab-row">
+                        Not applicable
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="cancelEditNode()" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" (click)="saveEditNode()" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+  </div>

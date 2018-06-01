@@ -1,0 +1,397 @@
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" (click)="cancelEditNode()" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title" id="myModalLabel">General Settings</h4>
+    </div>
+    <div class="modal-body">
+      <div class="col-md-12 tab-row">
+        <div class="col-md-6 tab-col">
+          <span>Choose parameter</span>
+        </div>
+        <div class="col-md-6 tab-col">
+          <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.chooseparameter">
+            <option *ngFor="let option of listParameters" [value]="option">{{option}}</option>
+          </select>
+        </div>
+      </div>
+      <!-- Tab General -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'General'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Dialog starts using language</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.general.dialogstartslanguage">
+              <option *ngFor="let option of listPlay">{{option}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Precall mode</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-radio" type="radio" name="precallmode" [(ngModel)]="showEditingNode.settings.general.precallmode" [value]="true">Yes
+            <input class="node-edit-radio" type="radio" name="precallmode" [(ngModel)]="showEditingNode.settings.general.precallmode" [value]="false">No
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Media file interruptible</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-input-checkbox" type="checkbox" [(ngModel)]="showEditingNode.settings.general.mediafileinterruptible">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>End digit</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.general.enddigit">
+              <option *ngFor="let option of listDigits" [value]="option">{{option}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- Tab Record -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'Record'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Email address</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.settings.record.emailaddress">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Stop on dtmf input</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-radio" type="radio" [(ngModel)]="showEditingNode.settings.record.stopondtmfinput"
+              [value]="true">Yes
+            <input class="node-edit-radio" type="radio" [(ngModel)]="showEditingNode.settings.record.stopondtmfinput"
+              [value]="false">No
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Automatic Gain Enabled</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-radio" type="radio" name="automaticgainenabled" [(ngModel)]="showEditingNode.settings.record.automaticgainenabled"
+              [value]="true">Yes
+            <input class="node-edit-radio" type="radio" name="automaticgainenabled" [(ngModel)]="showEditingNode.settings.record.automaticgainenabled"
+              [value]="false">No
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Silence Elimination</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.record.silenceelimination">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Threshold</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.record.threshold">
+          </div>
+        </div>
+      </div>
+      <!-- Tab Menu -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'Menu'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Timeout for choice (s)</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.menu.timeoutforchoice">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Maximum number of timeouts</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.menu.maximumnumberoftimeouts">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Maximum number of wrong choices</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.menu.maximumnumberofwrongchoices">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Media file for timeout input</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="col-md-6" type="text" [(ngModel)]="showEditingNode.settings.menu.mediafiletimeoutinput">
+            <button class="node-edit-button col-md-1 col-offset-2">A</button>
+            <button class="node-edit-button col-md-1">B</button>
+            <button class="node-edit-button col-md-1">C</button>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Media file for wrong input</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="col-md-6" type="text" [(ngModel)]="showEditingNode.settings.menu.mediafilewronginput">
+            <button class="node-edit-button col-md-1 col-offset-2">A</button>
+            <button class="node-edit-button col-md-1">B</button>
+            <button class="node-edit-button col-md-1">C</button>
+          </div>
+        </div>
+      </div>
+      <!-- Tab User Input -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'User Input'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Minimum length</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.userinput.minimumlength">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Maximum length</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.userinput.maximumlength">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Timeout for input</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.userinput.timeoutforinput">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Maximum number of timeouts</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.userinput.maximumnumberoftimeouts">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Maximum number of wrong inputs</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.userinput.maximumnumberofwronginputs">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Media file for timeout input</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="col-md-6" type="text" [(ngModel)]="showEditingNode.settings.userinput.mediafiletimeoutinput">
+            <button class="node-edit-button col-md-1 col-offset-2">A</button>
+            <button class="node-edit-button col-md-1">B</button>
+            <button class="node-edit-button col-md-1">C</button>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Media file for wrong input</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="col-md-6" type="text" [(ngModel)]="showEditingNode.settings.userinput.mediafilewronginput">
+            <button class="node-edit-button col-md-1 col-offset-2">A</button>
+            <button class="node-edit-button col-md-1">B</button>
+            <button class="node-edit-button col-md-1">C</button>
+          </div>
+        </div>
+      </div>
+      <!-- Tab Transfer -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'Transfer'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Transfer type</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-radio" type="radio" name="transfertype" [(ngModel)]="showEditingNode.settings.transfer.transfertype"
+              value="bridged">Bridged
+            <input class="node-edit-radio" type="radio" name="transfertype" [(ngModel)]="showEditingNode.settings.transfer.transfertype"
+              value="explicit">Explicit
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Outbound pool</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.settings.transfer.outboundpool">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Transfered number (TLI)</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.settings.transfer.transferednumber">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Calling number (CLI)</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.settings.transfer.callingnumber">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Maximum ring time (s)</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-number col-md-3" type="number" [(ngModel)]="showEditingNode.settings.transfer.maximumringtime">
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>TLI number plan</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.transfer.tlinumberplan">
+              <option *ngFor="let option of listPlay">{{option}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>TLI number format</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.transfer.tlinumberformat">
+                <option *ngFor="let option of listPlay">{{option}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>TLI number screening</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.transfer.tlinumberscreening">
+                <option *ngFor="let option of listPlay">{{option}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>CLI number plan</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.transfer.clinumberplan">
+                <option *ngFor="let option of listPlay">{{option}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>CLI number format</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.transfer.clinumberformat">
+                <option *ngFor="let option of listPlay">{{option}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>CLI number screening</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.transfer.clinumberscreening">
+                <option *ngFor="let option of listPlay">{{option}}</option>
+              </select>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>CLI number presentation</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.settings.transfer.clinumberpresentation">
+                <option *ngFor="let option of listPlay">{{option}}</option>
+              </select>
+          </div>
+        </div>
+      </div>
+      <!-- Tab SFCC -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'SFCC'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Campaign</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.settings.sfcc.campaign">
+          </div>
+        </div>
+      </div>
+      <!-- Tab Reroute -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'Reroute'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-6 tab-col">
+            <span>Goto</span>
+          </div>
+          <div class="col-md-6 tab-col">
+            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.settings.reroute.goto">
+          </div>
+        </div>
+      </div>
+      <!-- Tab Variables -->
+      <div class="tab-content" *ngIf="showEditingNode.settings.chooseparameter == 'Variables'">
+        <div class="col-md-12 tab-row">
+          <div class="col-md-12">
+            <p>
+              Supply the variables beneath. First a name (should be unique for the dialog), second field represents the value to use.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row" *ngFor="let variable of showEditingNode.settings.variables">
+          <div class="col-md-6 tab-col">
+            <div class="col-md-7 tab-input-label">
+              Variables Name:
+            </div>
+            <input class="node-edit-text col-md-5" [(ngModel)]="variable.variablename">
+          </div>
+          <div class="col-md-5 tab-col">
+            <div class="col-md-6 tab-input-label">
+              Value:
+            </div>
+            <input class="node-edit-text col-md-6" [(ngModel)]="variable.value">
+          </div>
+          <div class="col-md-1">
+            <button class="node-edit-button col-md-1" (click)="removeVariable(variable)">A</button>
+          </div>
+        </div>
+        <div class="col-md-12 tab-row">
+          <div class="col-md-1 pull-right">
+            <button class="node-edit-button col-md-1" (click)="addVariable()">A</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="cancelEditNode()" class="btn btn-default" data-dismiss="modal">Close</button>
+      <button type="button" (click)="saveEditNode()" class="btn btn-primary">Save changes</button>
+    </div>
+  </div>
+</div>

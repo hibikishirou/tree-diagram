@@ -1,0 +1,183 @@
+<div class="node-list">
+  <tree-root class="tree-list" #treelist [nodes]="nodeList" [options]="optionList">
+    <ng-template #treeNodeTemplate let-node let-index="index">
+      <div class="node-content-wrapper" [class.node-content-wrapper-active]="node.isActive" [class.node-content-wrapper-focused]="node.isFocused"
+        (drop)="node.mouseAction('drop', $event)" (click)="node.mouseAction('click', $event)" (dblclick)="node.mouseAction('dblClick', $event)"
+        (contextmenu)="node.mouseAction('contextMenu', $event)">
+        <div>{{node.data.name}}</div>
+        <div>
+          <img [src]="node.data.source" width="35px" height="35px">
+        </div>
+        <span [class]="node.data.className" [class.title]="true">{{ node.data.title }}</span>
+      </div>
+    </ng-template>
+  </tree-root>
+</div>
+
+
+<div class="tree-width">
+  <tree-root class="tree-content" #tree [nodes]="nodes" [options]="options">
+    <ng-template #treeNodeFullTemplate let-node let-index="index" let-templates="templates">
+      <div class="tree-node">
+        <div [ngClass]="{'line-to': node.parent.children.length==1,
+                                'line-first-child': node.parent.children.length !=1 && (node.getIndexInParent() == 0), 
+                                'line-last-child': node.parent.children.length !=1 && (node.getIndexInParent() == node.parent.children.length-1)}"
+          *ngIf="node.parent && !node.isRoot"></div>
+        <div class="line-middle-child">
+          <div *ngIf="node.parent && !node.isRoot && node.parent.children.length !=1 && (node.getIndexInParent() != 0 && node.getIndexInParent() != node.parent.children.length-1)"
+            [ngClass]="{'line-last-child': node.parent.children.length !=1 && (node.getIndexInParent() != 0 && node.getIndexInParent() != node.parent.children.length-1)} "></div>
+          <div class="line-middle" *ngIf="node.parent && !node.isRoot && node.parent.children.length !=1 && (node.getIndexInParent() != 0 && node.getIndexInParent() != node.parent.children.length-1)"
+            [ngClass]="{'line-first-child': node.parent.children.length !=1 && (node.getIndexInParent() != 0 && node.getIndexInParent() != node.parent.children.length-1)} "></div>
+        </div>
+        <div class="node-content-wrapper" [class.node-content-wrapper-active]="node.isActive" [class.node-content-wrapper-focused]="node.isFocused">
+          <div *ngIf="node.data.name == null && !node.isRoot">
+            <div [ngClass]="{'line-to': node.getIndexInParent() == 0 && node.parent.children.length == 1, 
+                            'line-first-child-simple': node.getIndexInParent() == 0 && node.parent.children.length != 1}"
+              style="height: 15px; margin-bottom: 5px;"></div>
+          </div>
+          <div *ngIf="node.data.name != null">{{node.data.name}}</div>
+          <div (click)="node.mouseAction('click', $event)" (dblclick)="node.mouseAction('dblClick', $event)" (contextmenu)="node.mouseAction('contextMenu', $event)"
+            [contextMenu]="basicMenu" [contextMenuSubject]="node" (click)="thisNode(node)" (treeDrop)="node.onDrop($event)"
+            [treeAllowDrop]="node.allowDrop" [treeDrag]="node" [treeDragEnabled]="node.allowDrag()">
+            <img [ngClass]="{'invalid': !node.data.valid}" [src]="node.data.source" width="35px" height="35px">
+            <img *ngIf="node.data.shortcut" class="shortcut-icon" src="./assets/download.png">
+          </div>
+        </div>
+
+        <div class="line-to" *ngIf="node.hasChildren"></div>
+        <span class="toggle-children-wrapper">
+          <i class="toggle-icon glyphicon glyphicon-plus-sign" (click)="node.expand()" *ngIf="node.hasChildren && node.isCollapsed"></i>
+          <i class="toggle-icon glyphicon glyphicon-minus-sign" (click)="node.collapse()" *ngIf="node.hasChildren && node.isExpanded"></i>
+          <div class="line-to" *ngIf="node.hasChildren && node.isExpanded"></div>
+          <tree-node-children [node]="node" [templates]="templates"></tree-node-children>
+          <div class="" *ngIf="node.hasChildren && node.children.length > 1"></div>
+        </span>
+        <div></div>
+      </div>
+    </ng-template>
+  </tree-root>
+</div>
+
+
+<context-menu #basicMenu>
+  <template contextMenuItem let-item [visible]="editAble">
+    <div (click)="editNode(item)">Edit</div>
+  </template>
+  <template contextMenuItem let-item [visible]="copyAble">
+    <div (click)="copyNode(item)">Copy Node</div>
+  </template>
+  <template contextMenuItem let-item [visible]="copyAble">
+    <div (click)="copyTree(item)">Copy Tree</div>
+  </template>
+  <template contextMenuItem let-item [visible]="parseAble">
+    <div (click)="parseNode(item)">Parse</div>
+  </template>
+  <template contextMenuItem let-item [visible]="deleteAble">
+    <div (click)="deleteNode(item)">Delete</div>
+  </template>
+</context-menu>
+
+<!-- Modal Edit Home-->
+<div class="modal fade" bsModal #homemodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <home-edit [editingNode]="showEditingHome" (onCancelEdit)="onCancelEditHome()" (onDoneEdit)="onDoneEditHome($event)"></home-edit>
+</div>
+
+<!-- Modal Edit Menu-->
+<div class="modal fade" bsModal #menumodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <menu-edit [editingNode]="showEditingMenu" (onCancelEdit)="onCancelEditMenu()" (onDoneEdit)="onDoneEditMenu($event)"></menu-edit>
+</div>
+
+<!-- Modal Edit Play-->
+<div class="modal fade" bsModal #playmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <play-edit [editingNode]="showEditingPlay" (onCancelEdit)="onCancelEditPlay()" (onDoneEdit)="onDoneEditPlay($event)"></play-edit>
+</div>
+
+<!-- Modal Edit Variable Play-->
+<div class="modal fade" bsModal #variableplaymodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <variable-play-edit [editingNode]="showEditingVariablePlay" (onCancelEdit)="onCancelEditVariablePlay()" (onDoneEdit)="onDoneEditVariablePlay($event)"></variable-play-edit>
+</div>
+
+<!-- Modal Edit Dynamic Play-->
+<div class="modal fade" bsModal #dynamicplaymodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <dynamic-play-edit [editingNode]="showEditingDynamicPlay" (onCancelEdit)="onCancelEditDynamicPlay()" (onDoneEdit)="onDoneEditDynamicPlay($event)"></dynamic-play-edit>
+</div>
+
+<!-- Modal Edit Url Play-->
+<div class="modal fade" bsModal #urlplaymodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <url-play-edit [editingNode]="showEditingUrlPlay" (onCancelEdit)="onCancelEditUrlPlay()" (onDoneEdit)="onDoneEditUrlPlay($event)"></url-play-edit>
+</div>
+
+<!-- Modal Edit Transfer-->
+<div class="modal fade" bsModal #transfermodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <transfer-edit [editingNode]="showEditingTransfer" (onCancelEdit)="onCancelEditTransfer()" (onDoneEdit)="onDoneEditTransfer($event)"></transfer-edit>
+</div>
+
+<!-- Modal Edit Record-->
+<div class="modal fade" bsModal #recordmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <record-edit [editingNode]="showEditingRecord" (onCancelEdit)="onCancelEditRecord()" (onDoneEdit)="onDoneEditRecord($event)"></record-edit>
+</div>
+
+<!-- Modal Edit Web Service-->
+<div class="modal fade" bsModal #webservicemodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <web-service-edit [editingNode]="showEditingWebService" (onCancelEdit)="onCancelEditWebService()" (onDoneEdit)="onDoneEditWebService($event)"></web-service-edit>
+</div>
+
+<!-- Modal Edit Web Service-->
+<div class="modal fade" bsModal #ifmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <if-edit [editingNode]="showEditingIf" (onCancelEdit)="onCancelEditIf()" (onDoneEdit)="onDoneEditIf($event)"></if-edit>
+</div>
+
+<!-- Modal Edit Load-->
+<div class="modal fade" bsModal #loadmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <load-edit [editingNode]="showEditingLoad" (onCancelEdit)="onCancelEditLoad()" (onDoneEdit)="onDoneEditLoad($event)"></load-edit>
+</div>
+
+<!-- Modal Edit Time-->
+<div class="modal fade" bsModal #timemodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <time-edit [editingNode]="showEditingTime" (onCancelEdit)="onCancelEditTime()" (onDoneEdit)="onDoneEditTime($event)"></time-edit>
+</div>
+
+<!-- Modal Edit Date-->
+<div class="modal fade" bsModal #datemodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <date-edit [editingNode]="showEditingDate" (onCancelEdit)="onCancelEditDate()" (onDoneEdit)="onDoneEditDate($event)"></date-edit>
+</div>
+
+<!-- Modal Edit Day of week-->
+<div class="modal fade" bsModal #dayofweekmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <day-of-week-edit [editingNode]="showEditingDayOfWeek" (onCancelEdit)="onCancelEditDayOfWeek()" (onDoneEdit)="onDoneEditDayOfWeek($event)"></day-of-week-edit>
+</div>
+
+<!-- Modal Edit User input-->
+<div class="modal fade" bsModal #userinputmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <user-input-edit [editingNode]="showEditingUserInput" (onCancelEdit)="onCancelEditUserInput()" (onDoneEdit)="onDoneEditUserInput($event)"></user-input-edit>
+</div>
+
+<!-- Modal Edit User input-->
+<div class="modal fade" bsModal #assignmentmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <assignment-edit [editingNode]="showEditingAssignment" (onCancelEdit)="onCancelEditAssignment()" (onDoneEdit)="onDoneEditAssignment($event)"></assignment-edit>
+</div>
+
+<!-- Modal Edit Connect Precall-->
+<div class="modal fade" bsModal #connectprecallmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <pre-call-edit [editingNode]="showEditingPreCall" (onCancelEdit)="onCancelEditConnectPrecall()" (onDoneEdit)="onDoneEditConnectPrecall($event)"></pre-call-edit>
+</div>
+
+<!-- Modal Edit SFCC-->
+<div class="modal fade" bsModal #sfccmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <sfcc-edit [editingNode]="showEditingSfcc" (onCancelEdit)="onCancelEditSFCC()" (onDoneEdit)="onDoneEditSFCC($event)"></sfcc-edit>
+</div>
+
+<!-- Modal Edit CCXML Exit-->
+<div class="modal fade" bsModal #ccxmlexitmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <ccxml-exit-edit [editingNode]="showEditingCCXMLExit" (onCancelEdit)="onCancelEditCCXMLExit()" (onDoneEdit)="onDoneEditCCXMLExit($event)"></ccxml-exit-edit>
+</div>
+
+<!-- Modal Edit Reroute-->
+<div class="modal fade" bsModal #reroutemodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <reroute-edit [editingNode]="showEditingReroute" (onCancelEdit)="onCancelEditReroute()" (onDoneEdit)="onDoneEditReroute($event)"></reroute-edit>
+</div>
+
+<!-- Modal Edit Reroute-->
+<div class="modal fade" bsModal #endmodal="bs-modal" role="dialog" aria-labelledby="myModalLabel">
+  <end-edit [editingNode]="showEditingEnd" (onCancelEdit)="onCancelEditEnd()" (onDoneEdit)="onDoneEditEnd($event)"></end-edit>
+</div>

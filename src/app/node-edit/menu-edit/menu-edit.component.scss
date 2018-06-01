@@ -1,0 +1,19 @@
+ul {
+    width: 190px;
+}
+li {
+    list-style-type: none;
+}
+.menu-numbers {
+    margin: auto;
+}
+.number-button {
+    margin: 5px;
+    height: 30px;
+    width: 30px;
+    float: left;
+}
+
+.active {
+    background-color: aquamarine;
+ }

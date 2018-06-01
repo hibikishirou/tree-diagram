@@ -1,0 +1,76 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" (click)="cancelEditNode()" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Variable Play</h4>
+        </div>
+        <div class="modal-body">
+            <tabset>
+                <tab title="Required" id="first-tab">
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Variable to play</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.required.variabletoplay">
+                                <option *ngFor="let option of listPlay">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Type of variable</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.required.typeofvariable">
+                                <option *ngFor="let option of listType">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Use end intonation</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-radio" type="radio" name="suggest" [(ngModel)]="showEditingNode.required.useendintonation" [value]="true"> Yes
+                            <input class="node-edit-radio" type="radio" name="suggest" [(ngModel)]="showEditingNode.required.useendintonation" [value]="false"> No
+                        </div>
+                    </div>
+                </tab>
+                <tab title="Optional">
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Play interruptible</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-input-checkbox" type="checkbox" [(ngModel)]="showEditingNode.optional.playinterruptible">
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Call marker</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.optional.callmarker">
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Alternative prompt location</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.optional.alternativepromptlocation">
+                        </div>
+                    </div>
+                </tab>
+                <tab title="Advanced">
+                 
+                </tab>
+            </tabset>
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="cancelEditNode()" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" (click)="saveEditNode()" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+</div>

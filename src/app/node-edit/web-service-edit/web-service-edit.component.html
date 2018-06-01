@@ -1,0 +1,85 @@
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" (click)="cancelEditNode()" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Webservice connection</h4>
+        </div>
+        <div class="modal-body">
+            <tabset>
+                <tab title="Required" id="first-tab">
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>URL</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-text col-md-7" [(ngModel)]="showEditingNode.required.url">
+                            <button class="node-edit-button col-md-1 col-offset-2">A</button>
+                        </div>
+                    </div>
+                </tab>
+                <tab title="Optional">
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Call marker</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.optional.callmarker">
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Reprompt after (s)</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.optional.repromptafter">
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Reprompt media file</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="col-md-6" type="text" [(ngModel)]="showEditingNode.optional.repromptmediafile">
+                            <button class="node-edit-button col-md-1 col-offset-2">A</button>
+                            <button class="node-edit-button col-md-1">B</button>
+                            <button class="node-edit-button col-md-1">C</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Timeout (s)</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-text col-md-8" [(ngModel)]="showEditingNode.optional.timeout">
+                        </div>
+                    </div>
+                </tab>
+                <tab title="Advanced">
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Media file cached</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <input class="node-edit-radio" type="radio" [(ngModel)]="showEditingNode.advanced.mediafilecached" value="true"> Yes
+                            <input class="node-edit-radio" type="radio" [(ngModel)]="showEditingNode.advanced.mediafilecached" value="false"> No
+                        </div>
+                    </div>
+                    <div class="col-md-12 tab-row">
+                        <div class="col-md-6 tab-col">
+                            <span>Method</span>
+                        </div>
+                        <div class="col-md-6 tab-col">
+                            <select class="node-edit-select col-md-8" [(ngModel)]="showEditingNode.advanced.method">
+                                <option *ngFor="let option of listMethod">{{option}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </tab>
+            </tabset>
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="cancelEditNode()" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" (click)="saveEditNode()" class="btn btn-primary">Save changes</button>
+        </div>
+    </div>
+</div>
