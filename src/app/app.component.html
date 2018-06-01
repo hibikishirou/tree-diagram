@@ -60,21 +60,21 @@
 
 
 <context-menu #basicMenu>
-  <template contextMenuItem let-item [visible]="editAble">
+  <ng-template contextMenuItem let-item [visible]="editAble">
     <div (click)="editNode(item)">Edit</div>
-  </template>
-  <template contextMenuItem let-item [visible]="copyAble">
+  </ng-template>
+  <ng-template contextMenuItem let-item [visible]="copyAble">
     <div (click)="copyNode(item)">Copy Node</div>
-  </template>
-  <template contextMenuItem let-item [visible]="copyAble">
+  </ng-template>
+  <ng-template contextMenuItem let-item [visible]="copyAble">
     <div (click)="copyTree(item)">Copy Tree</div>
-  </template>
-  <template contextMenuItem let-item [visible]="parseAble">
+  </ng-template>
+  <ng-template contextMenuItem let-item [visible]="parseAble">
     <div (click)="parseNode(item)">Parse</div>
-  </template>
-  <template contextMenuItem let-item [visible]="deleteAble">
+  </ng-template>
+  <ng-template contextMenuItem let-item [visible]="deleteAble">
     <div (click)="deleteNode(item)">Delete</div>
-  </template>
+  </ng-template>
 </context-menu>
 
 <!-- Modal Edit Home-->

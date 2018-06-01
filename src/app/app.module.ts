@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { ModalModule } from 'ng2-bootstrap';
 import { TabsModule } from "ng2-tabs";
 import { TreeModule } from 'angular-tree-component';
-import { ContextMenuModule } from 'angular2-contextmenu';
+import { ContextMenuModule } from 'ngx-contextmenu';
 
 import { HomeEditComponent } from './node-edit/home-edit/home-edit.component';
 import { MenuEditComponent } from './node-edit/menu-edit/menu-edit.component';
@@ -63,7 +63,7 @@ import { EndEditComponent } from './node-edit/end-edit/end-edit.component';
 
     ContextMenuModule, 
     TabsModule,
-    TreeModule,
+    TreeModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

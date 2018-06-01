@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { TreeComponent, TREE_ACTIONS, KEYS, IActionMapping } from 'angular-tree-component';
 import { ModalDirective } from 'ng2-bootstrap/modal';
-import { ContextMenuService, ContextMenuComponent } from 'angular2-contextmenu';
+import { ContextMenuService, ContextMenuComponent } from 'ngx-contextmenu';
 
 import {
   Default, Home,
